@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Location based AR</title>
+    <script src='https://aframe.io/releases/1.0.4/aframe.min.js'></script>
+    <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <script>
+   function loadPlaces() {
+    return [
+        {
+            name: "PoI 1",
+            location: {
+                lat: 51.964111, 
+                lng: 7.624378, 
+            }
+        },
+        {
+            name: 'PoI 2',
+            location: {
+                lat: 51.964107,
+                lng: 7.624630,
+            }
+        }
+    ];
+}
+        
+  window.onload = () => {
+	places = loadPlaces();
+	scene = document.querySelector('a-scene');
+	places.forEach((place) => {
+	   const latitude = place.location.lat;
+	   const longitude = place.location.lng;
+	   const icon = document.createElement('a-image');
+	   icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
+	   icon.setAttribute('name', place.name);
+	   icon.setAttribute('gltf-model', '#asset');
+	   //icon.setAttribute('look-at', '[gps-camera]');
+       icon.setAttribute('rotation', '0, 180, 0');
+ icon.setAttribute('scale', '0.5, 0.5'); // if you want for debugging
+	   scene.appendChild(icon);
+        console.log(icon.getAttribute('position'));
+        console.log(icon.getAttribute('[gps-entity-place]'));
+        console.log('[gps-camera]');
+	});
+    distanceMsg = document.querySelector('[gps-entity-place]').getAttribute('distance');
+   };
+        
+    AFRAME.registerComponent('rotation-reader', {
+  /**
+   * We use IIFE (immediately-invoked function expression) to only allocate one
+   * vector or euler and not re-create on every tick to save memory.
+   */
+  tick: (function () {
+    var position = new THREE.Vector3();
+    var rotation = new THREE.Euler();
+
+    return function () {
+      this.el.object3D.getWorldPosition(position);
+      this.el.object3D.getWorldRotation(rotation);
+      // position and rotation now contain vector and euler in world space.
+    };
+  })
+});
+</script>
+    
+</head>
+    
+<body style="margin : 0px; overflow: hidden;">
+   <a-scene embedded arjs>
+       
+    <a-assets>
+                <a-asset-item id="asset" src="tree.gltf"></a-asset-item>
+            </a-assets>
+	<!-- You can simulate your device's location for debugging -->
+	<!-- <a-camera gps-camera="simulateLatitude: 51.964; simulateLongitude: 7.6243" rotation-reader> </a-camera> --> 
+	<a-camera gps-camera rotation-reader> </a-camera> 
+    <a-box gps-entity-place="latitude: 51.964; longitude: 7.6243"/>
+    <a-text value="This will always face the user." 
+        look-at="[gps-camera]" scale="1 1 1" 
+        gps-entity-place="latitude: 51.964; longitude: 7.6243;">
+    </a-text>
+   </a-scene>
+</body>
+    
+</html>
