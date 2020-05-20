@@ -6,7 +6,7 @@
     <script src='https://aframe.io/releases/1.0.4/aframe.min.js'></script>
     <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    
     <script>
    function loadPlaces() {
     return [
@@ -27,8 +27,10 @@
     ];
 }
         
+        
   window.onload = () => {
-	places = loadPlaces();
+	setTimeout(() => {
+    places = loadPlaces();
 	scene = document.querySelector('a-scene');
 	places.forEach((place) => {
 	   const latitude = place.location.lat;
@@ -46,25 +48,10 @@
         console.log('[gps-camera]');
 	});
     distanceMsg = document.querySelector('[gps-entity-place]').getAttribute('distance');
-   };
-        
-  /*  AFRAME.registerComponent('rotation-reader', {
-  /**
-   * We use IIFE (immediately-invoked function expression) to only allocate one
-   * vector or euler and not re-create on every tick to save memory.
-   
-  tick: (function () {
-    var position = new THREE.Vector3();
-    var rotation = new THREE.Euler();
-
-    return function () {
-      this.el.object3D.getWorldPosition(position);
-      this.el.object3D.getWorldRotation(rotation);
-      // position and rotation now contain vector and euler in world space.
+   }, 3000)
     };
-  })
-});*/
-        AFRAME.registerComponent('rotation-reader', {
+               
+    AFRAME.registerComponent('rotation-reader', {
   tick: function () {
     // `this.el` is the element.
     // `object3D` is the three.js object.
@@ -75,7 +62,21 @@
     // `position` is a three.js Vector3.
     console.log(this.el.object3D.position);
   }
-});
+});        
+        
+ /* AFRAME.registerComponent('rotation-reader', {
+   tick: (function () {
+    var position = new THREE.Vector3();
+    var rotation = new THREE.Euler();
+
+    return function () {
+      this.el.object3D.getWorldPosition(position);
+      this.el.object3D.getWorldRotation(rotation);
+      // position and rotation now contain vector and euler in world space.
+    };
+  })
+});*/
+    
 </script>
     
 </head>
