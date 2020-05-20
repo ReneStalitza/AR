@@ -75,8 +75,8 @@
                 <a-asset-item id="asset" src="tree.gltf"></a-asset-item>
             </a-assets>
 	<!-- You can simulate your device's location for debugging -->
-	<!-- <a-camera gps-camera="simulateLatitude: 51.964; simulateLongitude: 7.6243" rotation-reader> </a-camera> --> 
-	<a-camera gps-camera rotation-reader> </a-camera> 
+	 <a-camera gps-camera="simulateLatitude: 51.964; simulateLongitude: 7.6243" rotation-reader> </a-camera> 
+	<!--<a-camera gps-camera rotation-reader> </a-camera> -->
     <a-box gps-entity-place="latitude: 51.964; longitude: 7.6243"/>
     <a-text value="This will always face the user." 
         look-at="[gps-camera]" scale="1 1 1" 
