@@ -39,7 +39,7 @@
 	   icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
 	   icon.setAttribute('name', place.name);
 	   icon.setAttribute('gltf-model', '#asset');
-	   //icon.setAttribute('look-at', '[gps-camera]');
+	   icon.setAttribute('look-at', '[gps-camera]');
        icon.setAttribute('rotation', '0, 180, 0');
        icon.setAttribute('scale', '0.5, 0.5'); // if you want for debugging
 	   scene.appendChild(icon);
@@ -48,35 +48,13 @@
         console.log('[gps-camera]');
 	});
     distanceMsg = document.querySelector('[gps-entity-place]').getAttribute('distance');
-   }, 3000)
+    navigator.geolocation.getCurrentPosition(position => {
+    alert(position.coords.latitude)
+});
+    }, 2000)
     };
                
-    AFRAME.registerComponent('rotation-reader', {
-  tick: function () {
-    // `this.el` is the element.
-    // `object3D` is the three.js object.
-
-    // `rotation` is a three.js Euler using radians. `quaternion` also available.
-    console.log(this.el.object3D.rotation);
-
-    // `position` is a three.js Vector3.
-    console.log(this.el.object3D.position);
-  }
-});        
-        
- /* AFRAME.registerComponent('rotation-reader', {
-   tick: (function () {
-    var position = new THREE.Vector3();
-    var rotation = new THREE.Euler();
-
-    return function () {
-      this.el.object3D.getWorldPosition(position);
-      this.el.object3D.getWorldRotation(rotation);
-      // position and rotation now contain vector and euler in world space.
-    };
-  })
-});*/
-    
+ 
 </script>
     
 </head>
